@@ -157,7 +157,7 @@ games.each do |gx| # comparing games
   win += 1 if game == gx
 end
 if win > 0
-  puts "\nCongratulations, you have won #{win} game(s)!\n\n"
+  puts "\nCongratulations, you won #{win} game(s)!\n\n"
 else
   puts "\nSorry, not this time. Try again.\n\n"
 end
