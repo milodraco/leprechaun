@@ -150,8 +150,6 @@ else
   exit
 end
 
-print game,"\n\n",games,"\n\n" #########
-
 win = 0
 games.each do |gx| # comparing games
   win += 1 if game == gx
