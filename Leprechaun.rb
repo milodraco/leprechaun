@@ -59,9 +59,6 @@ end
 puts "\nIf you would like to avoid specific games, put them in a file named <<avoid.txt>>"
 sleep(2)
 
-# meses para jogo Dia da Sorte
-m = ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO']
-
 c = 1 # game counter
 allgames = []
 
