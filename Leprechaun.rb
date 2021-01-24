@@ -186,7 +186,7 @@ elsif o=="3" # DELETE GAMES
 
 print "\nAre you sure? (Y/N) "
 del = (gets.chomp).upcase
-File.delete('games.txt') if File.exists? 'games.txt' if del=="Y"
+File.delete('games.txt') if del=="Y" && File.exists? 'games.txt'
 print "\n"
 
 elsif o=="4" # INSTRUCTIONS
