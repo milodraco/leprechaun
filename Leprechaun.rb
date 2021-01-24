@@ -150,21 +150,45 @@ else
   exit
 end
 
-win = 0
+win = [0,0,0,0]
+nwin = [[],[],[],[]]
+ng = 0
 games.each do |gx| # comparing games
-  win += 1 if game == gx
+  w = 0
+  ng += 1
+  game.each do |n|
+    w += 1 if gx.include?(n)
+  end
+  if w==game.length
+    win[0] += 1
+    nwin[0] << ng
+  elsif w==game.length-1
+    win[1] += 1
+    nwin[1] << ng
+  elsif w==game.length-2
+    win[2] += 1
+    nwin[2] << ng
+  elsif w==game.length-3
+    win[3] += 1
+    nwin[3] << ng
+  end
 end
-if win > 0
-  puts "\nCongratulations, you won #{win} game(s)!\n\n"
-else
-  puts "\nSorry, not this time. Try again.\n\n"
-end
+
+puts "\n#{win[0]} game(s) matching #{game.length} number(s): #{nwin[0]}
+
+#{win[1]} game(s) matching #{game.length-1} number(s): #{nwin[1]}
+
+#{win[2]} game(s) matching #{game.length-2} number(s): #{nwin[2]}
+
+#{win[3]} game(s) matching #{game.length-3} number(s): #{nwin[3]}\n\n"
 
 elsif o=="3" # DELETE GAMES
 
 print "\nAre you sure? (Y/N) "
 del = (gets.chomp).upcase
 File.delete('games.txt') if File.exists? 'games.txt' if del=="Y"
+print "\n"
+
 elsif o=="4" # INSTRUCTIONS
 
 puts "\nRandom numbers are between minimum and maximum values.
