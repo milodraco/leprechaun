@@ -271,8 +271,9 @@ LEPRECHAUN SYSTEM: 5 or more past drawnings required and only games
     up to 8 numbers. It's the slowest system.
 
 Files:
-    <<avoid.txt>> => list of combinations to avoid or past drawnings.
-    <<games.txt>> => list of stored games.\n\n"
+    <<avoid.txt>> => list of combinations to avoid or past drawnings (recent
+        drawnings should be the last).
+    <<games.txt>> => list of saved games.\n\n"
 
 sleep (5)
 puts ul
@@ -310,13 +311,18 @@ if File.file?('games.txt')
 end
 
 pgames = [] # creating the array of avoided combinations from txt file:
-File.readlines('avoid.txt').each do |line|
-  array = line.split("	")
-  (array.length).times do
-    array << array[0].to_i
-    array.shift
+if File.file?('avoid.txt')
+  File.readlines('avoid.txt').each do |line|
+    array = line.split("	")
+    (array.length).times do
+      array << array[0].to_i
+      array.shift
+    end
+    pgames << array
   end
-  pgames << array
+  else
+  puts "\nERROR: past drawnings required!\n"
+  exit
 end
 
 if pgames.length < 5
@@ -498,10 +504,10 @@ file = File.new("games.txt", 'a') # creating file of sorted games
 
 c = 1 # game counter
 allgames = []
+tsd = (max/6).round(0) # threshold
 
 while allgames.length < g do
   eq = false
-  tsd = (max/6).round(0)
   delta = []
 
   delta << rand(min..(max/10.0).round(0))
@@ -547,7 +553,7 @@ while allgames.length < g do
     delta.delete(delta.max)
   end
 
-  redo if delta.min < min || delta.count(0) > 1
+  redo if delta.min < min || delta.count(0) > 1 || delta.length != num # redo if minimum is below MIN or if there is more than one 0
 
   delta.shuffle!
   if delta.include?(0)
@@ -562,7 +568,6 @@ while allgames.length < g do
     prem << sum
   end
 
-  redo if prem.length < num
   prem.sort!
 
   for z in (0..allgames.length-1) # checking if the game is duplicated
@@ -640,14 +645,24 @@ if File.file?('games.txt')
   end
 end
 
+if g > 2000
+  print "Enable cooling down CPU (Y/N): "
+  cd = (gets.chomp).upcase
+end
+
 pgames = [] # creating the array of avoided combinations from txt file:
-File.readlines('avoid.txt').each do |line|
-  array = line.split("	")
-  (array.length).times do
-    array << array[0].to_i
-    array.shift
+if File.file?('avoid.txt')
+  File.readlines('avoid.txt').each do |line|
+    array = line.split("	")
+    (array.length).times do
+      array << array[0].to_i
+      array.shift
+    end
+    pgames << array
   end
-  pgames << array
+  else
+  puts "\nERROR: past drawnings required!\n"
+  exit
 end
 
 if pgames.length < 5
@@ -707,18 +722,20 @@ end
 
 puts "Please, wait. This can take several minutes."
 
+t = Time.now if cd == "Y" # initial time 
 scores = {} # summing scores of each game
+tsd = (max/6).round(0) # threshold
+slp = 20 # time of cooling down
+len = 0 # counter
+
 while scores.length < g*2 do # creating the double of needed games
   eq = false
-  tsd = (max/6).round(0)
   delta = []
+  delta << rand(min..(max/10.0).round(0)) # drawning 1st number
+  delta << rand(tsd-1..tsd+1) if num > 1 # drawning 2nd number
+  rest = num - delta.length # calculating left numbers
 
-  delta << rand(min..(max/10.0).round(0))
-  delta << rand(tsd-1..tsd+1) if num > 1
-
-  rest = num - delta.length
-
-  (rest/2).times do
+  (rest/2).times do # drawning half of left numbers (below threshold)
     if min > 0
       delta << rand(min..tsd)
     else
@@ -726,16 +743,16 @@ while scores.length < g*2 do # creating the double of needed games
     end
   end
 
-  (rest/2).times do
+  (rest/2).times do  # drawning half of left numbers (above threshold)
     delta << rand(tsd..((max/10.0).round(0))*3)
   end
  
   sum = 0
-  delta.each do |dx|
+  delta.each do |dx| # summing all numbers
     sum += dx
   end
 
-  (rest%2).times do
+  (rest%2).times do # drawning last number if NUM is odd
     if min > 0
       vy = rand(min..max-sum)
       vy = min if vy == nil || vy < min
@@ -751,15 +768,15 @@ while scores.length < g*2 do # creating the double of needed games
     sum += dx
   end
 
-  if sum > max
+  if sum > max # sum must be less or equal to maximum number
     delta << delta.max - (sum - max) - rand(0..max/10)
     delta.delete(delta.max)
   end
 
-  redo if delta.min < min || delta.count(0) > 1
+  redo if delta.min < min || delta.count(0) > 1 || delta.length != num # redo if minimum is below MIN or if there is more than one 0
 
   delta.shuffle!
-  if delta.include?(0)
+  if delta.include?(0) # 0 must be the first
     delta.delete(0)
     delta.unshift(0)
   end
@@ -771,7 +788,6 @@ while scores.length < g*2 do # creating the double of needed games
     prem << sum
   end
 
-  redo if prem.length < num
   prem.sort!
 
   for z in (0..(scores.values).length-1) # checking if the game is duplicated
@@ -798,8 +814,21 @@ while scores.length < g*2 do # creating the double of needed games
   prem.each do |e|
     scr += chances[e] 
   end
+
   scores[scr] = prem
-  print "."
+  if scores.length/2 > len
+    print scores.length/2, "/"
+    len = scores.length/2
+  end
+  
+  if cd == "Y" # CPU cooler
+    if Time.now >= t + 300
+      print "cooling down/"
+      sleep(slp)
+      t = Time.now
+      slp += 1
+    end
+  end
 end
 
 scores = scores.sort
@@ -807,9 +836,8 @@ scores.shift(scores.length/2)
 
 c = 1 # game counter
 allgames = []
- file = File.new("games.txt", 'a') # creating file of sorted games
-
-puts "\n"
+file = File.new("games.txt", 'a') # creating file of sorted games
+puts "\n\n"
 
 scores.each do |gm|
   allgames << gm[1]
