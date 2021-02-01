@@ -1,4 +1,4 @@
-ul = "____________________________________________________________\n" # underline
+ul = "_______________________________________________________________\n" # underline
 
 print "\n"
 5.times do
@@ -15,9 +15,9 @@ sleep(0.05)
   print "$"
   sleep(0.05)
 end
-print "\n          version 0.4b
+print "\n          version 0.5b
              coded by Milo_Draco\n"
-sleep(1)
+sleep(0.5)
 
 loop do
 
@@ -148,7 +148,7 @@ end
 
 file.close
 puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
-sleep (5)
+gets
 puts ul
 
 elsif o == "6" # CHECK RESULTS *************************************************************************
@@ -208,7 +208,7 @@ puts "\n#{win[0]} game(s) matching #{game.length} number(s): #{nwin[0]}
 
 #{win[3]} game(s) matching #{game.length-3} number(s): #{nwin[3]}\n\n"
 
-sleep (5)
+gets
 puts ul
 
 elsif o == "7" # CHECK FILES *********************************************************************
@@ -242,7 +242,7 @@ puts "\nStored games (<<games.txt>>) = #{games.length}" if games != nil
 puts "\nAvoided or PD (<<avoid.txt>>) = #{pgames.length}" if pgames != nil
 print "\n"
 
-sleep (2)
+gets
 puts ul
 
 elsif o == "8" # DELETE GAMES *********************************************************************
@@ -280,7 +280,7 @@ Files:
         drawings should be the last).
     <<games.txt>> => list of saved games.\n\n"
 
-sleep (5)
+gets
 puts ul
 
 elsif o == "3" # SMART ANALYSIS SYSTEM ******************************************************************
@@ -451,7 +451,7 @@ puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 #
 #values = ", chances.keys, "\n\n", "chances = ", chances, "\n\n", "sum = ", total, "\n\n", "table = ", dice, "\n\n"
 
-sleep (5)
+gets
 puts ul
 
 elsif o == "2" # DELTA SYSTEM *********************************************************************************
@@ -606,7 +606,7 @@ end
 file.close
 puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 
-sleep (5)
+gets
 puts ul
 
 elsif o.upcase == "EXIT" # EXIT **************************************************************
@@ -883,7 +883,7 @@ file.close
 
 puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 
-sleep (5)
+gets
 puts ul
 
 elsif o == "4" # BALANCED SYSTEM *************************************************************
@@ -970,10 +970,10 @@ for y in (min..max)
   end
 end
 
-evenl -= avoid
-oddl -= avoid
-evenh -= avoid
-oddh -= avoid
+evenl -= avoid + include
+oddl -= avoid + include
+evenh -= avoid + include
+oddh -= avoid + include
 
 while allgames.length < g do
   eq = false
@@ -1039,7 +1039,7 @@ end
 
 file.close
 puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
-sleep (5)
+gets
 puts ul
 
 else
