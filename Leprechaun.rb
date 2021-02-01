@@ -23,15 +23,18 @@ loop do
 
 print "
 ____________________________
- 1. SIMPLE SYSTEM           |
- 2. DELTA SYSTEM            |
- 3. SMART ANALYSIS SYSTEM   |
- 4. LEPRECHAUN SYSTEM       |
+          SYSTEMS:          | 
+ 1. SIMPLE                  |
+ 2. DELTA                   |
+ 3. SMART ANALYSIS          |
+ 4. BALANCED                |
+ 5. LEPRECHAUN              |
 ============================|
- 5. CHECK RESULTS           |
- 6. CHECK FILES             |
- 7. DELETE STORED GAMES     |
- 8. INSTRUCTIONS            |
+           TOOLS:           |
+ 6. CHECK RESULTS           |
+ 7. CHECK FILES             |
+ 8. DELETE SAVED GAMES      |
+ 9. INSTRUCTIONS            |
 ============================'
 
 Please, enter option: "
@@ -148,7 +151,7 @@ puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 sleep (5)
 puts ul
 
-elsif o == "5" # CHECK RESULTS *************************************************************************
+elsif o == "6" # CHECK RESULTS *************************************************************************
 
 print "\nPlease, insert the numbers (separate by commas): "
 game = (gets.chomp).split(",")
@@ -208,7 +211,7 @@ puts "\n#{win[0]} game(s) matching #{game.length} number(s): #{nwin[0]}
 sleep (5)
 puts ul
 
-elsif o == "6" # CHECK FILES *********************************************************************
+elsif o == "7" # CHECK FILES *********************************************************************
 
 if File.file?('games.txt') # creating array of stored games
     games = []
@@ -242,7 +245,7 @@ print "\n"
 sleep (2)
 puts ul
 
-elsif o == "7" # DELETE GAMES *********************************************************************
+elsif o == "8" # DELETE GAMES *********************************************************************
 
 if File.exists?('games.txt')
   print "\nAre you sure? (Y/N) "
@@ -254,7 +257,7 @@ else
 end
 puts ul
 
-elsif o == "8" # INSTRUCTIONS *******************************************************************************
+elsif o == "9" # INSTRUCTIONS *******************************************************************************
 
 puts "\nRandom numbers are between minimum and maximum values.
 All the games are stored in a TXT file (<<games.txt>>).
@@ -262,17 +265,19 @@ You can insert avoided games in a TXT file, just insert one combination per
 line and separate numbers using TAB. Name the file <<avoid.txt>>.
 Check if you have won using option 2.
 
-SIMPLE SYSTEM: no file required. All kind of games suported. You
+SIMPLE SYSTEM: no file required. All kind of games supported. You
     can avoid or include specific numbers.
 DELTA SYSTEM: no file required. Only games up to 8 numbers.
-SMART ANALYSIS SYSTEM: 5 or more past drawnings required (in the
-    <<avoid.txt>>). All kind of games suported.
-LEPRECHAUN SYSTEM: 5 or more past drawnings required and only games
+SMART ANALYSIS SYSTEM: 5 or more past drawings required (in the
+    <<avoid.txt>>). All kind of games supported.
+BALANCED SYSTEM: no file required. All kind of games supported. You
+    can avoid or include specific numbers.
+LEPRECHAUN SYSTEM: 5 or more past drawings required and only games
     up to 8 numbers. It's the slowest system.
 
 Files:
-    <<avoid.txt>> => list of combinations to avoid or past drawnings (recent
-        drawnings should be the last).
+    <<avoid.txt>> => list of combinations to avoid or past drawings (recent
+        drawings should be the last).
     <<games.txt>> => list of saved games.\n\n"
 
 sleep (5)
@@ -321,16 +326,16 @@ if File.file?('avoid.txt')
     pgames << array
   end
   else
-  puts "\nERROR: past drawnings required!\n"
+  puts "\nERROR: past drawings required!\n"
   exit
 end
 
 if pgames.length < 5
-  puts "\nERROR: at least 5 past drawnings required!\n"
+  puts "\nERROR: at least 5 past drawings required!\n"
   exit
 end
 
-puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "Past drawnings = #{pgames.length}"
+puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "Past drawings = #{pgames.length}"
 
 chances = {} # counting times of each number
 chances.default = 0
@@ -342,7 +347,7 @@ end
 
 puts "PD range = #{chances.keys[0]} - #{chances.keys[-1]}", "\n"
 if chances.length < max
-  puts "ERROR: past drawnings must include wider range of values!\n\n"
+  puts "ERROR: past drawings must include wider range of values!\n\n"
   exit
 end
 sleep(1)
@@ -608,7 +613,7 @@ elsif o.upcase == "EXIT" # EXIT ************************************************
 
 exit
 
-elsif o == "4" # LEPRECHAUN SYSTEM **************************************************************
+elsif o == "5" # LEPRECHAUN SYSTEM **************************************************************
 
 print "\nPlease, insert the lowest value: "
 min = (gets.chomp).to_i
@@ -645,8 +650,8 @@ if File.file?('games.txt')
   end
 end
 
-if g > 2000
-  print "Enable cooling down CPU (Y/N): "
+if g > 3000
+  print "Enable temperature cooldown (Y/N): "
   cd = (gets.chomp).upcase
 end
 
@@ -661,16 +666,16 @@ if File.file?('avoid.txt')
     pgames << array
   end
   else
-  puts "\nERROR: past drawnings required!\n"
+  puts "\nERROR: past drawings required!\n"
   exit
 end
 
 if pgames.length < 5
-  puts "\nERROR: at least 5 past drawnings required!\n"
+  puts "\nERROR: at least 5 past drawings required!\n"
   exit
 end
 
-puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "Past drawnings = #{pgames.length}"
+puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "Past drawings = #{pgames.length}"
 
 chances = {} # counting times of each number
 chances.default = 0
@@ -683,7 +688,7 @@ end
 puts "PD range = #{chances.keys[0]} - #{chances.keys[-1]}", "\n"
 
 if chances.length < max
-  puts "ERROR: past drawnings must include wider range of values!\n\n"
+  puts "ERROR: past drawings must include wider range of values!\n\n"
   exit
 end
 
@@ -731,11 +736,11 @@ len = 0 # counter
 while scores.length < g*2 do # creating the double of needed games
   eq = false
   delta = []
-  delta << rand(min..(max/10.0).round(0)) # drawning 1st number
-  delta << rand(tsd-1..tsd+1) if num > 1 # drawning 2nd number
+  delta << rand(min..(max/10.0).round(0)) # drawing 1st number
+  delta << rand(tsd-1..tsd+1) if num > 1 # drawing 2nd number
   rest = num - delta.length # calculating left numbers
 
-  (rest/2).times do # drawning half of left numbers (below threshold)
+  (rest/2).times do # drawing half of left numbers (below threshold)
     if min > 0
       delta << rand(min..tsd)
     else
@@ -743,7 +748,7 @@ while scores.length < g*2 do # creating the double of needed games
     end
   end
 
-  (rest/2).times do  # drawning half of left numbers (above threshold)
+  (rest/2).times do  # drawing half of left numbers (above threshold)
     delta << rand(tsd..((max/10.0).round(0))*3)
   end
  
@@ -752,7 +757,7 @@ while scores.length < g*2 do # creating the double of needed games
     sum += dx
   end
 
-  (rest%2).times do # drawning last number if NUM is odd
+  (rest%2).times do # drawing last number if NUM is odd
     if min > 0
       vy = rand(min..max-sum)
       vy = min if vy == nil || vy < min
@@ -810,20 +815,48 @@ while scores.length < g*2 do # creating the double of needed games
   end
   redo if eq == true
 
+  even = 0
+  odd = 0
+  lo = 0
+  hi = 0
+  prem.each do |e| # calculating even, odd, low and high numbers
+    if e % 2 == 0
+      even += 1
+    else
+      odd += 1
+    end
+    if e <= (max - min)/2.0
+      lo += 1
+    else
+      hi += 1
+    end
+  end
+  
   scr = 0
-  prem.each do |e|
-    scr += chances[e] 
+  prem.each do |e| # calculating score of drawing
+    scr += chances[e]
+  end
+
+  if even - odd <= 1 && even - odd >= -1
+    scr *= 1.2
+  elsif even == num || odd == num
+    scr *= 0.5
+  end
+  if lo - hi <= 1 && lo - hi >= -1
+    scr *= 1.2
+  elsif lo == num || hi == num
+    scr *= 0.5
   end
 
   scores[scr] = prem
   if scores.length/2 > len
-    print scores.length/2, "/"
+    print scores.length/2, "."
     len = scores.length/2
   end
   
-  if cd == "Y" # CPU cooler
-    if Time.now >= t + 300
-      print "cooling down/"
+  if cd == "Y" # cooldown
+    if Time.now >= t + 500
+      print "COOLING DOWN."
       sleep(slp)
       t = Time.now
       slp += 1
@@ -850,6 +883,162 @@ file.close
 
 puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 
+sleep (5)
+puts ul
+
+elsif o == "4" # BALANCED SYSTEM *************************************************************
+
+
+print "\nPlease, insert the lowest value: "
+min = (gets.chomp).to_i
+
+print "Please, insert the highest value: "
+max = (gets.chomp).to_i
+
+print "Please, insert and the total amount of sorted numbers: "
+num = (gets.chomp).to_i
+
+print "Please, insert and the total number of games: "
+g = (gets.chomp).to_i
+
+print "Please, insert and the numbers to avoid (separate by commas) or press ENTER: "
+avoid = (gets.chomp).split(",")
+for v in (0..avoid.length-1)
+  avoid[v] = avoid[v].to_i
+end
+
+print "Please, insert and the numbers to include (separate by commas) or press ENTER: "
+include = (gets.chomp).split(",")
+for v in (0..include.length-1)
+  include[v] = include[v].to_i
+end
+
+if File.file?('games.txt') # creating array of stored games
+  print "Avoid stored games (Y/N): "
+  cg = (gets.chomp).upcase
+  if cg == "Y"
+    games = []
+    File.readlines('games.txt').each do |line|
+      line = line[1..-2]
+      array = line.split(",")
+      (array.length).times do
+        array << array[0].to_i
+        array.shift
+      end
+    games << array
+    end
+  end
+end
+
+puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "Avoid: #{avoid}", "Include: #{include}", "\n"
+sleep(1)
+
+pgames = [] # creating the array of avoided combinations from txt file:
+if File.file?('avoid.txt')
+  File.readlines('avoid.txt').each do |line|
+    array = line.split("	")
+    (array.length).times do
+      array << array[0].to_i
+      array.shift
+    end
+    pgames << array
+  end
+end
+
+file = File.new("games.txt", 'a') # creating file of sorted games
+
+c = 1 # game counter
+allgames = []
+evenl = []
+oddl = []
+evenh = []
+oddh = []
+
+for y in (min..max)
+  if y <= (max - min)/2.0
+    if y % 2 == 0
+      evenl << y
+    else
+      oddl << y
+    end
+  else
+    if y % 2 == 0
+      evenh << y
+    else
+      oddh << y
+    end
+  end
+end
+
+evenl -= avoid
+oddl -= avoid
+evenh -= avoid
+oddh -= avoid
+
+while allgames.length < g do
+  eq = false
+  prem = [] + include
+
+  while prem.length < num
+    ((num - prem.length)/4).times do
+      if evenl.length > 0
+        prem << evenl[rand(0..evenl.length - 1)]
+        evenl -= prem
+      end
+      if oddl.length > 0
+        prem << oddl[rand(0..oddl.length - 1)]
+        oddl -= prem
+      end
+      if evenh.length > 0
+        prem << evenh[rand(0..evenh.length - 1)]
+        evenh -= prem
+      end
+      if oddh.length > 0
+        prem << oddh[rand(0..oddh.length - 1)]
+        oddh -= prem
+      end
+    end
+    
+    rest = num - prem.length
+    rest.times do
+      a = rand(min..max)
+      redo if prem.include?(a)
+      prem << a
+    end
+  end
+  
+  prem.sort!
+  
+  for z in (0..allgames.length-1) # checking if the game is duplicated
+    eq = true if prem == allgames[z]
+    break if eq == true
+  end
+  redo if eq == true
+
+  for a in (0..pgames.length-1) # checking avoid.txt duplicates
+    eq = true if prem == pgames[a]
+    break if eq == true
+  end
+  redo if eq == true
+
+  if games != nil
+    for a in (0..games.length-1) # checking games.txt duplicates
+      eq = true if prem == games[a]
+      break if eq == true
+    end
+  end
+  redo if eq == true
+
+  allgames << prem
+  
+  puts "Game ##{c}"
+  print prem, "\n \n"
+  file.write(prem, "\n")
+  c += 1
+end
+
+file.close
+puts "\nAll games created successfully and written to file <<games.txt>>\n\n"
 sleep (5)
 puts ul
 
