@@ -502,7 +502,7 @@ File.readlines('avoid.txt').each do |line|
   pgames << array
 end
 
-puts "Minimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "\n"
+puts "\nMinimum = #{min}", "Maximum = #{max}", "Numbers = #{num}", "\n"
 sleep(1)
 
 file = File.new("games.txt", 'a') # creating file of sorted games
